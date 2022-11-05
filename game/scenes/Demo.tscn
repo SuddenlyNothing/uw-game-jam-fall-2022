@@ -1,22 +1,29 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://utils/ButtonChangeScene.gd" type="Script" id=1]
+[ext_resource path="res://scenes/characters/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/characters/enemies/Dummy.tscn" type="PackedScene" id=4]
 
 [node name="Demo" type="Node2D"]
 
-[node name="ChangeScene" type="Button" parent="."]
-margin_right = 12.0
-margin_bottom = 20.0
-focus_mode = 0
-text = "Change scene"
-script = ExtResource( 1 )
-next_scene = "res://scenes/Demo.tscn"
-
 [node name="InputFormatLabel" parent="." instance=ExtResource( 2 )]
-margin_left = 9.0
-margin_top = 73.0
-margin_right = 439.0
-margin_bottom = 178.0
-text = "{up}, {down}, {left}, {right}, {pause}"
+margin_left = 7.0
+margin_top = 36.0
+margin_right = 437.0
+margin_bottom = 141.0
+text = "{up}, {down}, {left}, {right} to move
+{pause} to pause
+
+{melee} to melee
+{shoot} to shoot
+Attack dummy to gain
+souls in order to shoot"
 autowrap = true
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Player" parent="YSort" instance=ExtResource( 1 )]
+position = Vector2( 222, 131 )
+
+[node name="Dummy" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 266, 122 )
