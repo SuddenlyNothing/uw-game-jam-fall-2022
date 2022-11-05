@@ -5,3 +5,5 @@ var user_keys := PoolStringArray(["pause", "melee", "shoot", "continue", "up", "
 
 # Used for formatting strings to display the correct key.
 var input_format := {}
+
+var rng := RandomNumberGenerator.new()
