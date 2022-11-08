@@ -20,8 +20,7 @@ func _state_logic(delta: float) -> void:
 			if parent.global_position.distance_to(wander_controller.target_position) >= parent._wander_target_range:
 				parent.accelerate(delta)
 				parent.move_and_slide(parent._velocity)
-		states.attack:
-			pass
+
 
 
 # Return value will be used to change state.
@@ -32,28 +31,18 @@ func _get_transition(delta: float):
 				print("engage!")
 				return states.engage
 			if wander_controller.get_time_left() == 0:
-				print("new state")
 				wander_controller.start_wander_timer(rand_range(1, 3))
-				state = _pick_random_state(["idle", "patrol"])
-				print(state)
-				if state == "idle":
-					return states.idle
-				else:
-					return states.patrol
+				return states.patrol
 		states.engage:
 			pass
 		states.patrol:
+#			print(wander_controller.get_time_left())
 			if parent.detect:
 				print("engage!")
 				return states.engage
 			if wander_controller.get_time_left() == 0:
-				print("new_state")
 				wander_controller.start_wander_timer(rand_range(1, 3))
-				state = _pick_random_state(["idle", "patrol"])
-				if state == "idle":
-					return states.idle
-				else:
-					return states.patrol
+				return states.idle
 
 func _pick_random_state(state_list):
 	state_list.shuffle()
