@@ -17,12 +17,9 @@ onready var _agent : NavigationAgent2D = $NavigationAgent2D
 onready var _player : Node = get_node(_path_to_player)
 onready var detect := false
 onready var _timer: Timer = $PathTimer
-onready var _shoot_timer := $ShootTimer
-onready var _attack_interval := $AttackInterval
 onready var anim_sprite := $Pivot/AnimatedSprite
 onready var hitbox_collision := $Pivot/HitBox/CollisionShape2D
 onready var _in_range := false
-onready var _player_area:Area2D
 const CollectableSoul := preload("res://scenes/characters/CollectableSoul.tscn")
 onready var _state_machine := $BiggiesState
 
@@ -109,17 +106,16 @@ func move_attack(delta: float) -> void:
 func _on_HitBox_area_entered(area: Area2D):
 	if not area.is_in_group("hittable"):
 		return
-	_in_range = true
-	_attack_interval.start()
-	_player_area = area
+	if area.has_method("get_big_hit"):
+		_in_range = true
+		area.get_big_hit()
 
 
-func _on_HitBox_area_exited(area):
+func _on_HitBox_area_exited(area: Area2D):
+	if not area.is_in_group("hittable"):
+		return
 	_in_range = false
 
-
-func _on_AttackInterval_timeout():
-	_player_area.get_big_hit()
 
 
 func _on_AnimatedSprite_animation_finished():

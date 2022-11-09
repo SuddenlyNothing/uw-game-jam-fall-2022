@@ -8,18 +8,18 @@
 [ext_resource path="res://scenes/environment/wall.tscn" type="PackedScene" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 196, -197, 195, 56, -249, 61, -250, -197 )
+vertices = PoolVector2Array( 182, -177, 181, 41, -227, 41, -227, -174 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -250, -197, -249, 61, 195, 56, 196, -197 ) ]
+outlines = [ PoolVector2Array( -227, -174, -227, 41, 181, 41, 182, -177 ) ]
 
 [node name="Demo" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="InputFormatLabel" parent="." instance=ExtResource( 2 )]
-margin_left = 7.0
-margin_top = 36.0
-margin_right = 437.0
-margin_bottom = 141.0
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 276.0
+margin_bottom = 154.0
 text = "{up}, {down}, {left}, {right} to move
 {pause} to pause
 
@@ -38,6 +38,7 @@ position = Vector2( 250, 204 )
 position = Vector2( 251, 199 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="YSort/Navigation2D"]
+position = Vector2( 1, 1 )
 navpoly = SubResource( 1 )
 
 [node name="Biggies" parent="YSort/Navigation2D" instance=ExtResource( 5 )]

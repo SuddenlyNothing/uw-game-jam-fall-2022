@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/enemy_taking_damage2.ogg-db274bfa0ea9667eb44bb3f7bbc0e6e1.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/enemy_taking_damage2.ogg"
+dest_files=[ "res://.import/enemy_taking_damage2.ogg-db274bfa0ea9667eb44bb3f7bbc0e6e1.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -126,4 +126,4 @@ func _on_PlayerHurtBox_hit():
 
 
 func _on_PlayerHurtBox_big_hit():
-	hud.remove_player_health(30)
+	hud.remove_player_health(10)

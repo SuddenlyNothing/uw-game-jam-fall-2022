@@ -42,6 +42,8 @@ func _get_transition(delta: float):
 		states.attack:
 			if parent.hud.has_health(0):
 				return states.death
+		states.death:
+			return states.idle
 	return null
 
 
@@ -58,7 +60,6 @@ func _enter_state(new_state: String, old_state) -> void:
 			parent.play_anim("attack")
 		states.death:
 			parent.play_anim("death")
-			get_tree().reload_current_scene()
 
 
 # Called on exiting state.
@@ -72,3 +73,5 @@ func _exit_state(old_state, new_state: String) -> void:
 			pass
 		states.attack:
 			parent.hitbox_collision.call_deferred("set_disabled", true)
+		states.death:
+			get_tree().reload_current_scene()

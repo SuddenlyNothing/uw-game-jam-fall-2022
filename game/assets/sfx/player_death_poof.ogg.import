@@ -1,0 +1,13 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+valid=false
+
+[deps]
+
+source_file="res://assets/sfx/player_death_poof.ogg"
+[params]
+
+loop=true
+loop_offset=0

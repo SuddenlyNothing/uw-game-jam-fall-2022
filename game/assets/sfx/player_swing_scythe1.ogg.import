@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/player_swing_scythe1.ogg-cd18ef35e0fa5e0788bfb65d76915d1b.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/player_swing_scythe1.ogg"
+dest_files=[ "res://.import/player_swing_scythe1.ogg-cd18ef35e0fa5e0788bfb65d76915d1b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

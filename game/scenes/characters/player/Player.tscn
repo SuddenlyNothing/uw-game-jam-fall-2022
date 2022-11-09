@@ -498,7 +498,7 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 frames = SubResource( 2 )
 animation = "death"
-frame = 21
+frame = 12
 speed_scale = 8.0
 playing = true
 
