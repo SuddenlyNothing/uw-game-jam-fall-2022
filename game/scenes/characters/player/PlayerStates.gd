@@ -5,6 +5,7 @@ func _ready() -> void:
 	add_state("idle")
 	add_state("walk")
 	add_state("attack")
+	add_state("death")
 	call_deferred("set_state", "idle")
 
 
@@ -17,23 +18,30 @@ func _state_logic(delta: float) -> void:
 			parent.move(delta)
 		states.attack:
 			parent.move_attack(delta)
+		states.death:
+			pass
 
 
 # Return value will be used to change state.
 func _get_transition(delta: float):
 	match state:
 		states.idle:
+			if parent.hud.has_health(0):
+				return states.death
 			if Input.is_action_just_pressed("melee"):
 				return states.attack
 			if parent.input:
 				return states.walk
 		states.walk:
+			if parent.hud.has_health(0):
+				return states.death
 			if Input.is_action_just_pressed("melee"):
 				return states.attack
 			if not parent.input:
 				return states.idle
 		states.attack:
-			pass
+			if parent.hud.has_health(0):
+				return states.death
 	return null
 
 
@@ -48,6 +56,9 @@ func _enter_state(new_state: String, old_state) -> void:
 			parent.play_anim("walk")
 		states.attack:
 			parent.play_anim("attack")
+		states.death:
+			parent.play_anim("death")
+			get_tree().reload_current_scene()
 
 
 # Called on exiting state.

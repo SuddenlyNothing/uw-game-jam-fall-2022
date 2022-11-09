@@ -19,13 +19,25 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
-[node name="SoulBar" type="ProgressBar" parent="Control/M"]
+[node name="HealthBar" type="ProgressBar" parent="Control/M"]
+modulate = Color( 1, 0.117647, 0.117647, 1 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 110.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 100, 0 )
-mouse_filter = 2
 size_flags_horizontal = 0
+max_value = 1.0
+step = 0.0
+value = 1.0
+
+[node name="SoulBar" type="ProgressBar" parent="Control/M"]
+margin_left = 338.0
+margin_top = 10.0
+margin_right = 438.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 100, 0 )
+mouse_filter = 2
+size_flags_horizontal = 8
 max_value = 1.0
 step = 0.0

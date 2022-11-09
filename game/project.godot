@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utils/ButtonChangeScene.gd"
 }, {
-"base": "KinematicBody2D",
-"class": "Player",
-"language": "GDScript",
-"path": "res://scenes/characters/player/Player.gd"
-}, {
 "base": "Resource",
 "class": "SaveData",
 "language": "GDScript",
@@ -43,7 +38,6 @@ _global_script_class_icons={
 "AnimatedButton": "",
 "ButtonSFX": "",
 "ChangeScene": "",
-"Player": "",
 "SaveData": "",
 "StateMachine": ""
 }
@@ -69,6 +63,10 @@ window/size/width=448
 window/size/height=256
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[global]
+
+Collison=false
 
 [gui]
 
@@ -150,6 +148,11 @@ melee={
 
 pointing/emulate_touch_from_mouse=true
 pointing/emulate_mouse_from_touch=false
+
+[layer_names]
+
+2d_render/layer_1="Player"
+2d_render/layer_2="Enemy"
 
 [physics]
 

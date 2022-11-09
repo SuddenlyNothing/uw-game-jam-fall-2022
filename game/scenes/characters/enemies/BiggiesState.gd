@@ -5,7 +5,7 @@ func _ready() -> void:
 	add_state("patrol")
 	add_state("engage")
 	add_state("idle")
-	add_state("shoot")
+	add_state("attack")
 	call_deferred("set_state", "idle")
 
 
@@ -21,9 +21,12 @@ func _state_logic(delta: float) -> void:
 			if parent.global_position.distance_to(wander_controller.target_position) >= parent._wander_target_range:
 				parent.accelerate(delta)
 				parent.move_and_slide(parent._velocity)
-		states.shoot:
-			if parent._shoot_interval.get_time_left() == 0:
-				parent._shoot_interval.start()
+		states.attack:
+			if parent._attack_interval.get_time_left() == 0:
+				parent._attack_interval.start()
+			parent.move_attack(delta)
+#			if parent._shoot_interval.get_time_left() == 0:
+#				parent._shoot_interval.start()
 #			parent._shoot_timer.start()	
 
 
@@ -40,16 +43,16 @@ func _get_transition(delta: float):
 				return states.patrol
 		states.engage:
 			if parent._in_range:
-				return states.shoot
+				return states.attack
 		states.patrol:
 #			print(wander_controller.get_time_left())
 			if parent.detect:
-				print("engage!")
 				return states.engage
 			if wander_controller.get_time_left() == 0:
 				wander_controller.start_wander_timer(rand_range(1, 3))
 				return states.idle
-		states.shoot:
+		states.attack:
+			
 			if !(parent._in_range):
 				return states.engage
 
@@ -61,7 +64,15 @@ func _pick_random_state(state_list):
 # new_state is the state being entered.
 # old_state is the state being exited.
 func _enter_state(new_state: String, old_state) -> void:
-	pass
+	match new_state:
+		states.idle:
+			parent.play_anim("idle")
+		states.engage:
+			parent.play_anim("engage")
+		states.patrol:
+			parent.play_anim("patrol")
+		states.attack:
+			parent.play_anim("attack")
 
 
 # Called on exiting state.

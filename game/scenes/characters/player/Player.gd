@@ -1,11 +1,11 @@
 extends KinematicBody2D
-
 const SoulBullet := preload("res://scenes/characters/player/SoulBullet.tscn")
 
 export(float) var acceleration := 700.0
 export(float) var turn_acceleration := 1500.0
 export(float) var friction := 1000.0
 export(float) var max_speed := 100.0
+export(int) var health := 100
 
 var velocity := Vector2()
 var input := Vector2()
@@ -119,3 +119,11 @@ func _on_AnimatedSprite_frame_changed() -> void:
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	player_states.call_deferred("set_state", "idle")
+	
+
+func _on_PlayerHurtBox_hit():
+	hud.remove_player_health(5)
+
+
+func _on_PlayerHurtBox_big_hit():
+	hud.remove_player_health(30)

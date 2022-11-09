@@ -4,7 +4,7 @@
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Demo.gd" type="Script" id=3]
 [ext_resource path="res://scenes/characters/enemies/Dummy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/characters/enemies/Smallies.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/characters/enemies/Biggies.tscn" type="PackedScene" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 196, -197, 195, 56, -249, 61, -250, -197 )
@@ -39,8 +39,8 @@ position = Vector2( 251, 199 )
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="YSort/Navigation2D"]
 navpoly = SubResource( 1 )
 
-[node name="Smallies" parent="YSort/Navigation2D" instance=ExtResource( 5 )]
-position = Vector2( -141, -61 )
+[node name="Biggies" parent="YSort/Navigation2D" instance=ExtResource( 5 )]
+position = Vector2( -174, -110 )
 _path_to_player = NodePath("../../Player")
 
 [node name="Dummy" parent="YSort" instance=ExtResource( 4 )]

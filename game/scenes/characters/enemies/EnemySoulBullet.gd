@@ -1,5 +1,6 @@
 extends Area2D
 
+
 export(float) var speed := 350.0
 export(Vector2) var dir := Vector2()
 
@@ -13,13 +14,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
-
-
-func _on_Hitbox_body_entered(body: Node):
-	print(body.is_in_group("hittable"))
-	if body.is_in_group("hittable"):
-		body.get_hit()
-
 
 func _on_Hitbox_area_entered(area: Area2D):
 	if not area.is_in_group("hittable"):
