@@ -498,7 +498,7 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 frames = SubResource( 2 )
 animation = "death"
-frame = 12
+frame = 13
 speed_scale = 8.0
 playing = true
 
@@ -531,6 +531,8 @@ script = ExtResource( 6 )
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]
 shape = SubResource( 5 )
 
+[node name="Invinceable" type="Timer" parent="PlayerHurtBox"]
+
 [connection signal="animation_finished" from="Pivot/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="Pivot/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="area_entered" from="Pivot/Hitbox" to="." method="_on_Hitbox_area_entered"]
@@ -539,3 +541,4 @@ shape = SubResource( 5 )
 [connection signal="timeout" from="ShootInterval" to="." method="_on_ShootInterval_timeout"]
 [connection signal="big_hit" from="PlayerHurtBox" to="." method="_on_PlayerHurtBox_big_hit"]
 [connection signal="hit" from="PlayerHurtBox" to="." method="_on_PlayerHurtBox_hit"]
+[connection signal="timeout" from="PlayerHurtBox/Invinceable" to="." method="_on_Invinceable_timeout"]

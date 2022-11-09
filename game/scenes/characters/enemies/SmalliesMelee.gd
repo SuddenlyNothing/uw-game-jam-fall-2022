@@ -20,8 +20,10 @@ onready var _timer: Timer = $PathTimer
 onready var _shoot_timer := $ShootTimer
 onready var _shoot_interval := $ShootInterval
 onready var anim_sprite := $Pivot/AnimatedSprite
-onready var hitbox_collision := $Pivot/Hitbox/CollisionShape2D
+onready var hitbox_collision := $Pivot/HitBox/CollisionShape2D
 onready var _in_range := false
+onready var _player_area :Area2D
+onready var _state_machine:= $SmalliestMeleeState
 const CollectableSoul := preload("res://scenes/characters/CollectableSoul.tscn")
 
 export(int) var num_souls := 3
@@ -86,7 +88,8 @@ func _update_pathfinding() -> void:
 	_agent.set_target_location(_player.global_position)
 
 func _dies() -> void:
-	queue_free()
+	_state_machine.call_deferred("set_state", "death")
+
 
 func play_anim(anim: String) -> void:
 	anim_sprite.play(anim)
@@ -103,17 +106,22 @@ func move_attack(delta: float) -> void:
 	apply_friction(delta)
 	move_and_slide(_velocity)
 
-func _on_HitBox_body_entered(body):
-	if body.is_in_group("player"):
-		_in_range = true
-
-
-func _on_HitBox_body_exited(body):
-	if body.is_in_group("player"):
-		_in_range = false
-
-
 func _on_HitBox_area_entered(area):
 	if not area.is_in_group("hittable"):
 		return
-	area.get_hit()
+	if area.has_method("get_big_hit"):
+		_in_range = true
+		_player_area = area
+
+
+func _on_HitBox_area_exited(area):
+	if not area.is_in_group("hittable"):
+		return
+	_in_range = false
+
+
+func _on_AnimatedSprite_animation_finished():
+	if anim_sprite.animation == "attack":
+		_state_machine.call_deferred("set_state", "engage")
+	if anim_sprite.animation == "death":
+		queue_free()

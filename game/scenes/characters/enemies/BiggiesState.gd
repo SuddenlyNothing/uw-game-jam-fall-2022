@@ -5,6 +5,7 @@ func _ready() -> void:
 	add_state("patrol")
 	add_state("engage")
 	add_state("attack")
+	add_state("death")
 	call_deferred("set_state", "patrol")
 
 
@@ -21,6 +22,7 @@ func _state_logic(delta: float) -> void:
 				parent.move_and_slide(parent._velocity)
 			parent.anim_sprite.flip_h = parent._velocity.x < 0
 		states.attack:
+			parent._player_area.get_big_hit()
 			parent.move_attack(delta)
 			parent.anim_sprite.flip_h = parent.global_position.direction_to(parent._agent.get_next_location()).x < 0
 #			if parent._shoot_interval.get_time_left() == 0:
@@ -41,8 +43,7 @@ func _get_transition(delta: float):
 				return states.engage
 			if wander_controller.get_time_left() == 0:
 				wander_controller.start_wander_timer(rand_range(1, 3))
-		states.attack:
-			print("attack!")	
+		states.attack:	
 			if !(parent._in_range):
 				return states.engage
 
@@ -61,6 +62,8 @@ func _enter_state(new_state: String, old_state) -> void:
 			parent.play_anim("running")
 		states.attack:
 			parent.play_anim("attack")
+		states.death:
+			parent.play_anim("death")
 
 
 # Called on exiting state.
@@ -68,8 +71,3 @@ func _enter_state(new_state: String, old_state) -> void:
 # new_state is the state being entered.
 func _exit_state(old_state, new_state: String) -> void:
 	pass
-
-func _seek_player():
-	if parent.detect:
-		print("engage!")
-		return states.engage

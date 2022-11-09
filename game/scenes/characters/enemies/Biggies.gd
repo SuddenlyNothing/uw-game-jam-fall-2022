@@ -15,6 +15,7 @@ export var _path_to_player := NodePath()
 export var _wander_target_range = 4
 onready var _agent : NavigationAgent2D = $NavigationAgent2D 
 onready var _player : Node = get_node(_path_to_player)
+onready var _player_area: Area2D
 onready var detect := false
 onready var _timer: Timer = $PathTimer
 onready var anim_sprite := $Pivot/AnimatedSprite
@@ -85,7 +86,7 @@ func _update_pathfinding() -> void:
 	_agent.set_target_location(_player.global_position)
 
 func _dies() -> void:
-	queue_free()
+	_state_machine.call_deferred("set_state", "death")
 
 func play_anim(anim: String) -> void:
 	anim_sprite.play(anim)
@@ -108,7 +109,8 @@ func _on_HitBox_area_entered(area: Area2D):
 		return
 	if area.has_method("get_big_hit"):
 		_in_range = true
-		area.get_big_hit()
+		_player_area = area
+		
 
 
 func _on_HitBox_area_exited(area: Area2D):
@@ -121,3 +123,5 @@ func _on_HitBox_area_exited(area: Area2D):
 func _on_AnimatedSprite_animation_finished():
 	if anim_sprite.animation == "attack":
 		_state_machine.call_deferred("set_state", "engage")
+	if anim_sprite.animation == "death":
+		queue_free()

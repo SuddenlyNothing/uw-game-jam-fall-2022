@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/characters/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/characters/enemies/Dummy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/characters/enemies/Biggies.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/environment/wall.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/characters/enemies/SmalliesMelee.tscn" type="PackedScene" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 182, -177, 181, 41, -227, 41, -227, -174 )
@@ -43,6 +44,10 @@ navpoly = SubResource( 1 )
 
 [node name="Biggies" parent="YSort/Navigation2D" instance=ExtResource( 5 )]
 position = Vector2( -174, -110 )
+_path_to_player = NodePath("../../Player")
+
+[node name="SmalliesMelee" parent="YSort/Navigation2D" instance=ExtResource( 7 )]
+position = Vector2( 149, -156 )
 _path_to_player = NodePath("../../Player")
 
 [node name="Dummy" parent="YSort" instance=ExtResource( 4 )]

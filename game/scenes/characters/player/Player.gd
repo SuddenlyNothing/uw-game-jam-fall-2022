@@ -17,7 +17,8 @@ onready var shoot_timer := $ShootTimer
 onready var shoot_interval := $ShootInterval
 onready var hitbox_collision := $Pivot/Hitbox/CollisionShape2D
 onready var player_states := $PlayerStates
-
+onready var iframe := $PlayerHurtBox/Invinceable
+onready var invinceable = false
 
 func _process(delta: float) -> void:
 	input = Input.get_vector("left", "right", "up", "down")
@@ -122,8 +123,20 @@ func _on_AnimatedSprite_animation_finished() -> void:
 	
 
 func _on_PlayerHurtBox_hit():
-	hud.remove_player_health(5)
+	if invinceable == false:
+		print("attack!")
+		hud.remove_player_health(5)
+		invinceable = true
+		iframe.start()
 
 
 func _on_PlayerHurtBox_big_hit():
-	hud.remove_player_health(10)
+	if invinceable == false:
+		print("attack!")
+		hud.remove_player_health(10)
+		invinceable = true
+		iframe.start()
+
+
+func _on_Invinceable_timeout():
+	invinceable = false # Replace with function body.
