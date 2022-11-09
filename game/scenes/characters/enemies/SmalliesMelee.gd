@@ -1,12 +1,11 @@
 extends KinematicBody2D
 
-const EnemySoulBullet := preload("res://scenes/characters/enemies/EnemySoulBullet.tscn")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 export(float) var acceleration := 700.0
 export(float) var turn_acceleration := 1500.0
-export(float) var max_speed := 50.0
+export(float) var max_speed := 100.0
 export(float) var friction := 1000.0
 export(int) var health:= 10
 
@@ -20,6 +19,8 @@ onready var detect := false
 onready var _timer: Timer = $PathTimer
 onready var _shoot_timer := $ShootTimer
 onready var _shoot_interval := $ShootInterval
+onready var anim_sprite := $Pivot/AnimatedSprite
+onready var hitbox_collision := $Pivot/Hitbox/CollisionShape2D
 onready var _in_range := false
 const CollectableSoul := preload("res://scenes/characters/CollectableSoul.tscn")
 
@@ -87,28 +88,32 @@ func _update_pathfinding() -> void:
 func _dies() -> void:
 	queue_free()
 
+func play_anim(anim: String) -> void:
+	anim_sprite.play(anim)
 
-func _on_RangeArea2D_body_entered(body: Node):
+func _on_AnimatedSprite_frame_changed() -> void:
+	match anim_sprite.animation:
+		"attack":
+			match anim_sprite.frame:
+				2:
+					hitbox_collision.call_deferred("set_disabled", false)
+
+func move_attack(delta: float) -> void:
+	accelerate(delta)
+	apply_friction(delta)
+	move_and_slide(_velocity)
+
+func _on_HitBox_body_entered(body):
 	if body.is_in_group("player"):
 		_in_range = true
-		
-
-func shoot() -> void:
-	var esb := EnemySoulBullet.instance()
-	esb.position = position
-	# get direction from current position to player
-	esb.dir = global_position.direction_to(_player.global_position)
-	get_parent().add_child(esb)
 
 
-func _on_ShootTimer_timeout():
-	_shoot_interval.stop()
-
-
-func _on_ShootInterval_timeout():
-	shoot()
-
-
-func _on_RangeArea2D_body_exited(body: Node) -> void:
+func _on_HitBox_body_exited(body):
 	if body.is_in_group("player"):
 		_in_range = false
+
+
+func _on_HitBox_area_entered(area):
+	if not area.is_in_group("hittable"):
+		return
+	area.get_hit()
