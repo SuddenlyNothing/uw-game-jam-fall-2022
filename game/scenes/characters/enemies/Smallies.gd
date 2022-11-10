@@ -20,6 +20,8 @@ onready var detect := false
 onready var _timer: Timer = $PathTimer
 onready var _shoot_timer := $ShootTimer
 onready var _shoot_interval := $ShootInterval
+onready var anim_sprite := $AnimatedSprite
+onready var _state_machine :=$SmalliestState
 onready var _in_range := false
 const CollectableSoul := preload("res://scenes/characters/CollectableSoul.tscn")
 
@@ -68,6 +70,7 @@ func apply_friction(delta: float) -> void:
 
 func _on_EnemyHurtbox_hit() -> void:
 	health -= 5
+	print(health)
 	if health <= 0:
 		_dies()
 	for i in num_souls:
@@ -85,7 +88,7 @@ func _update_pathfinding() -> void:
 	_agent.set_target_location(_player.global_position)
 
 func _dies() -> void:
-	queue_free()
+	_state_machine.call_deferred("set_state", "death")
 
 
 func _on_RangeArea2D_body_entered(body: Node):
@@ -100,6 +103,8 @@ func shoot() -> void:
 	esb.dir = global_position.direction_to(_player.global_position)
 	get_parent().add_child(esb)
 
+func play_anim(anim: String) -> void:
+	anim_sprite.play(anim)
 
 func _on_ShootTimer_timeout():
 	_shoot_interval.stop()
@@ -112,3 +117,9 @@ func _on_ShootInterval_timeout():
 func _on_RangeArea2D_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
 		_in_range = false
+
+func _on_AnimatedSprite_animation_finished():
+	if anim_sprite.animation == "shoot":
+		_state_machine.call_deferred("set_state", "engage")
+	if anim_sprite.animation == "death":
+		queue_free()

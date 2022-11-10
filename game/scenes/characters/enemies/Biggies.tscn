@@ -8,8 +8,9 @@
 [ext_resource path="res://assets/sprites/sprite_biggie-character---attack.png" type="Texture" id=6]
 [ext_resource path="res://assets/sprites/sprite_biggie-character---death.png" type="Texture" id=7]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 8 )
+[sub_resource type="CapsuleShape2D" id=80]
+radius = 2.0043
+height = 27.9914
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 112.0
@@ -198,7 +199,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Biggies" type="KinematicBody2D"]
+[node name="Biggies" type="KinematicBody2D" groups=["enemy"]]
 script = ExtResource( 2 )
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -208,7 +209,9 @@ target_desired_distance = 100.0
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 2.38419e-07, 2 )
+rotation = -1.57187
+shape = SubResource( 80 )
 
 [node name="DetectionBox" type="Area2D" parent="."]
 visible = false
@@ -217,6 +220,7 @@ visible = false
 shape = SubResource( 3 )
 
 [node name="EnemyHurtbox" type="Area2D" parent="." groups=["hittable"]]
+visible = false
 collision_layer = 2
 script = ExtResource( 4 )
 
@@ -238,14 +242,17 @@ visible = false
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
+visible = false
 position = Vector2( 0, -20 )
 shape = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 position = Vector2( 0, -24 )
 frames = SubResource( 5 )
-animation = "attack"
+animation = "running"
+frame = 7
 speed_scale = 1.75
+playing = true
 
 [connection signal="body_entered" from="DetectionBox" to="." method="_on_DetectionBox_body_entered"]
 [connection signal="hit" from="EnemyHurtbox" to="." method="_on_EnemyHurtbox_hit"]

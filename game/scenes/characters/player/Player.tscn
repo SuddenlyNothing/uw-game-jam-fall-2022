@@ -498,7 +498,7 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 frames = SubResource( 2 )
 animation = "death"
-frame = 13
+frame = 8
 speed_scale = 8.0
 playing = true
 
@@ -525,7 +525,7 @@ one_shot = true
 [node name="ShootInterval" type="Timer" parent="."]
 wait_time = 0.08
 
-[node name="PlayerHurtBox" type="Area2D" parent="." groups=["hittable"]]
+[node name="PlayerHurtBox" type="Area2D" parent="." groups=["hittable", "playerhurtbox"]]
 script = ExtResource( 6 )
 
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]

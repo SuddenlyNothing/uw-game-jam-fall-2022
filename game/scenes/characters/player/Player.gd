@@ -20,6 +20,8 @@ onready var player_states := $PlayerStates
 onready var iframe := $PlayerHurtBox/Invinceable
 onready var invinceable = false
 
+signal player_dead
+
 func _process(delta: float) -> void:
 	input = Input.get_vector("left", "right", "up", "down")
 	if Input.is_action_pressed("shoot") and shoot_timer.is_stopped() and \
@@ -107,6 +109,8 @@ func _on_ShootInterval_timeout() -> void:
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("hittable"):
 		return
+	if area.is_in_group("playerhurtbox"):
+		return
 	area.get_hit()
 
 
@@ -119,12 +123,14 @@ func _on_AnimatedSprite_frame_changed() -> void:
 
 
 func _on_AnimatedSprite_animation_finished() -> void:
-	player_states.call_deferred("set_state", "idle")
+	if anim_sprite.animation == "death":
+		emit_signal("player_dead")
+	else:
+		player_states.call_deferred("set_state", "idle")
 	
 
 func _on_PlayerHurtBox_hit():
 	if invinceable == false:
-		print("attack!")
 		hud.remove_player_health(5)
 		invinceable = true
 		iframe.start()
@@ -132,7 +138,6 @@ func _on_PlayerHurtBox_hit():
 
 func _on_PlayerHurtBox_big_hit():
 	if invinceable == false:
-		print("attack!")
 		hud.remove_player_health(10)
 		invinceable = true
 		iframe.start()

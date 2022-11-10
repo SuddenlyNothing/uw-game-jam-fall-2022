@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/characters/player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Demo.gd" type="Script" id=3]
 [ext_resource path="res://scenes/characters/enemies/Dummy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/environment/wall.tscn" type="PackedScene" id=6]
@@ -14,21 +13,7 @@ outlines = [ PoolVector2Array( -227, -174, -227, 41, 181, 41, 182, -177 ) ]
 
 [node name="Demo" type="Node2D"]
 script = ExtResource( 3 )
-next_scene = "res://scenes/LevelOne.tscn"
-
-[node name="InputFormatLabel" parent="." instance=ExtResource( 2 )]
-margin_left = 24.0
-margin_top = 24.0
-margin_right = 276.0
-margin_bottom = 154.0
-text = "{up}, {down}, {left}, {right} to move
-{pause} to pause
-
-{melee} to melee
-{shoot} to shoot
-Attack dummy to gain
-souls in order to shoot"
-autowrap = true
+next_scene = "res://scenes/LevelTwo.tscn"
 
 [node name="YSort" type="YSort" parent="."]
 
@@ -41,6 +26,10 @@ position = Vector2( 251, 199 )
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="YSort/Navigation2D"]
 position = Vector2( 1, 1 )
 navpoly = SubResource( 1 )
+
+[node name="SmalliesMelee2" parent="YSort/Navigation2D" instance=ExtResource( 7 )]
+position = Vector2( -184, -111 )
+_path_to_player = NodePath("../../Player")
 
 [node name="SmalliesMelee" parent="YSort/Navigation2D" instance=ExtResource( 7 )]
 position = Vector2( 141, -116 )
